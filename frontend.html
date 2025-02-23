@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linear Regression Prediction</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        input, button { padding: 10px; margin: 10px; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <h1>Linear Regression Prediction</h1>
+    <p>Enter a number to predict:</p>
+    <input type="number" id="inputValue" placeholder="Enter value">
+    <button onclick="predict()">Predict</button>
+    <h2 id="result"></h2>
+
+    <script>
+        async function predict() {
+            let inputValue = document.getElementById("inputValue").value;
+            let response = await fetch("http://127.0.0.1:5000/predict", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ "features": [parseFloat(inputValue)] })
+            });
+
+            let data = await response.json();
+            document.getElementById("result").innerText = "Prediction: " + data.prediction;
+        }
+    </script>
+</body>
+</html>
